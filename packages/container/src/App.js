@@ -9,7 +9,7 @@ import Header from "./components/Header";
 import Progress from "./components/Progress";
 
 const MarketingLazy = lazy(() => import("./components/MarketingApp"));
-const Authazy = lazy(() => import("./components/AuthApp"));
+const AuthLazy = lazy(() => import("./components/AuthApp"));
 
 const generateClassName = createGenerateClassName({
   productionPrefix: "co",
@@ -29,7 +29,7 @@ function App() {
           <Suspense fallback={<Progress />}>
             <Switch>
               <Route path="/auth">
-                <Authazy onSignIn={() => setIsSignedId(true)} />
+                <AuthLazy onSignIn={() => setIsSignedId(true)} />
               </Route>
               <Route path="/" component={MarketingLazy} />
             </Switch>
