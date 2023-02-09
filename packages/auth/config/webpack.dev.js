@@ -7,24 +7,25 @@ const deps = require("../package.json").dependencies;
 const devConfig = {
   mode: "development",
   output: {
-    publicPath: "http://localhost:8080/",
+    publicPath: "http://localhost:8082/",
   },
   devServer: {
-    port: 8080,
+    port: 8082,
     historyApiFallback: {
       index: "/index.html",
     },
   },
   plugins: [
-    new ModuleFederationPlugin({
-      name: "container",
-      remotes: {
-        marketing: "marketing@http://localhost:8081/remoteEntry.js",
-      },
-      shared: deps,
-    }),
     new webpack.DefinePlugin({
       "process.env.NODE_ENV": JSON.stringify("development"),
+    }),
+    new ModuleFederationPlugin({
+      name: "auth",
+      filename: "remoteEntry.js",
+      exposes: {
+        "./AuthApp": "./src/bootstrap",
+      },
+      shared: deps,
     }),
   ],
 };
