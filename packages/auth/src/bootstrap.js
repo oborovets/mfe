@@ -4,18 +4,18 @@ import ReactDOM from "react-dom";
 
 import App from "./App";
 
-const mount = (el, { onNavigate, defaultHistory }) => {
-  const history = defaultHistory || createMemoryHistory();
+const mount = (el, { onNavigate, onSignIn, defaultHistory, initialPath }) => {
+  const history =
+    defaultHistory || createMemoryHistory({ initialEntries: [initialPath] });
 
   if (onNavigate) {
     history.listen(onNavigate);
   }
 
-  ReactDOM.render(<App history={history} />, el);
+  ReactDOM.render(<App onSignIn={onSignIn} history={history} />, el);
 
   return {
     onParentNavigate({ pathname: nextPathname }) {
-      console.log("Navigation happens");
       if (history.location.pathname !== nextPathname) {
         history.push(nextPathname);
       }
